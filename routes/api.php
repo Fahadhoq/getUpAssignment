@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('/list', [ProductController::class, 'index']);
         Route::post('/create', [ProductController::class, 'store']);
-        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::get('{id}', [ProductController::class, 'show']);
         Route::post('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::get('/topSellingProducts', [OrderController::class, 'topSellingProducts']);
+        Route::get('/recentOrders/{customerId}', [OrderController::class, 'recentOrders']);
     });
 });
 

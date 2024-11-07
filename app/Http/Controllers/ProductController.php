@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Order;
 
 class ProductController extends Controller
 {
@@ -94,5 +95,7 @@ class ProductController extends Controller
             return response()->success(['message' => 'Product Successfully Delete', 'status'=> true]);
         }
     }
+
+    
 }
 

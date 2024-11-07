@@ -18,5 +18,15 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        // Seed 10 customers (You can change the number to your requirement)
+        \App\Models\Customer::factory(10)->create();
+
+        // Call the ProductSeeder
+        // $this->call(ProductSeeder::class);
+
+
+        // Call the OrderSeeder to populate the orders table
+        // $this->call(OrderSeeder::class);
     }
 }
