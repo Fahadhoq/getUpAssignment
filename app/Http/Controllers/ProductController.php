@@ -72,7 +72,7 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
-            $product = $product->update($validator->validated());
+            $product->update($validator->validated());
             DB::commit();
             return response()->success(['product' => $product, 'message' => 'Product Successfully Update', 'status'=> true]);
         } catch(\Exception $exception){
