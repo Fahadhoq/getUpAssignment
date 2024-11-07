@@ -3,15 +3,23 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
+     * Handle an incoming request.
      */
-    protected function redirectTo(Request $request): ?string
+    public function handle($request, \Closure $next, ...$guards)
     {
-        return $request->expectsJson() ? null : route('login');
+        if ($this->auth->guard('api')->guest()) {
+            return response()->error('Missing authorization code.',401);
+        }
+
+        // Otherwise, fall back to the default behavior (redirect to login page)
+        return parent::handle($request, $next, ...$guards);
     }
 }
+
+
+
