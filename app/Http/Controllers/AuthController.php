@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use DB;
-
+use App\Jobs\SendWelcomeEmailJob;
 class AuthController extends Controller
 {
     // User registration
@@ -32,6 +32,9 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
             DB::commit();
+
+            SendWelcomeEmailJob::dispatch($user);
+
             return response()->success(['message' => 'User Register Successful', 'status'=> true]);
         } catch(\Exception $exception){
             DB::rollback();
