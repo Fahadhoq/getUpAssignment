@@ -10,13 +10,17 @@ use App\Models\Order;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request, Product $product)
     {
+        $this->authorize('view', $product);
+
         return response()->success(Product::all());
     }
 
-    public function store(Request $request)
+    public function store(Request $request,Product $product)
     {
+        $this->authorize('create', $product);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:products,name',
             'description' => 'required|string',
@@ -41,8 +45,10 @@ class ProductController extends Controller
         
     }
 
-    public function show($id)
+    public function show($id,Product $product)
     {
+        $this->authorize('view', $product);
+
         $product = Product::find($id);
 
         if (!$product) {
@@ -52,8 +58,10 @@ class ProductController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,Product $product)
     {
+        $this->authorize('update', $product);
+
         $product = Product::find($id);
 
         if (!$product) {
@@ -84,8 +92,10 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    public function destroy($id)
+    public function destroy($id,Product $product)
     {
+        $this->authorize('delete', $product);
+
         $product = Product::find($id);
 
         if (!$product) {
