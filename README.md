@@ -1,66 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a Laravel-based web application for managing products, users, orders, and roles. It includes role-based access control and queued jobs for email sending.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. [Prerequisites](#prerequisites)
+2. [Cloning the Repository](#cloning-the-repository)
+3. [Setting Up the Environment](#setting-up-the-environment)
+4. [Running the Application](#running-the-application)
+5. [Testing the Application](#testing-the-application)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 1. Prerequisites
 
-## Learning Laravel
+Before running the project, make sure you have the following software installed on your machine:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **PHP** (version 8.0 or higher)
+- **Composer** (to install PHP dependencies)
+- **Node.js** and **npm** (to install JavaScript dependencies)
+- **MySQL** (or any compatible database)
+- **Git** (to clone the repository)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 2. Cloning the Repository
 
-## Laravel Sponsors
+First, clone the repository to your local machine using the following Git command:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone https://github.com/Fahadhoq/getUpAssignment.git
+cd getUpAssignment
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+## 3. Setting Up the Environment
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### A) Copy the `.env.example` to `.env`
 
-## Code of Conduct
+Laravel requires an environment file (`.env`) to store sensitive configuration like database credentials and API keys. To create the `.env` file, run the following command:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# bash
+cp .env.example .env
 
-## Security Vulnerabilities
+### B) Configure Database Connection
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Open the `.env` file in your project root and update the following values to match your local database configuration:
 
-## License
+# env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=root
+DB_PASSWORD=your_password
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# to send emails
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=fahadulhoq.bitspeck@gmail.com
+MAIL_PASSWORD=incxmkhijlhfnebl
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=fahadulhoq.bitspeck@gmail.com
+MAIL_FROM_NAME="getUpAssignment"
+
+### C) Generate the Laravel Application Key
+
+The application key is required for encryption. Run this command to generate it:
+
+# bash
+php artisan key:generate
+
+### D) Install PHP Dependencies
+
+Run Composer to install the required PHP dependencies:
+
+```bash
+composer install
+
+### D) Install JavaScript Dependencies
+
+The project includes front-end assets (e.g., Blade views) that need to be compiled. Install the required JavaScript dependencies by running the following command:
+
+```bash
+npm install
+
+
+## 4. Running the Application
+
+### A) Run the Database Migrations
+
+To set up the database schema (create the necessary tables), run the following command:
+
+```bash
+php artisan migrate
+
+### B) Seed the Database
+
+Seed the database with sample data for roles, users, customers, categories, products, and orders by running:
+
+```bash
+php artisan db:seed
+
+### C) Start the Laravel Development Server
+
+To start the Laravel development server, run the following command:
+
+```bash
+php artisan serve
+
+Compile the assets using:
+```bash
+npm run dev
+
+Run the queue worker:
+```bash
+php artisan queue:work
+
+## 5. Testing the Application
+
+### A) Testing Authentication
+
+1. Go to [http://localhost:8000/register](http://localhost:8000/register) to register a new user.
+   - After registration, a welcome email will be sent via a queued job if the email is valid.
+2. After registration, go to [http://localhost:8000/login](http://localhost:8000/login) to log in with the new user credentials.
+
+### B) Testing Role-Based Access
+
+- **As an Admin**, you should be able to:
+  - View, create, update, and delete products at `/product/list`.
+  - Manage roles at `/role`.
+  - Manage users at `/users`.
+  - View customer and order lists at `/customer/list` and `/order/list`.
+  
+- **As an Editor**, you should only be able to update certain content, like products. Editors should have restricted access to other areas such as role management, customer list, and order list.
+
+- If you're testing role-based permissions, ensure that the roles have been assigned to users, either using the admin interface. Example admin credentials:
+  - **Email**: `admin@getupAssignment.com`
+  - **Password**: `12345678`
+
+### C) Operations for Roles
+
+- View all roles at the "Show All Roles" section.
+- Assign roles to users under the "Assign Roles" section.
+
+### D) Operations for Users
+
+- View all users at the "Show All Users" section.
+
+### E) Operations for Products
+
+- View all products in the "Show All Products" section. Here, you can:
+  - View, update, and delete existing products.
+  - Click on "Create Product" to add a new product.
+
+### F) Operations for Customers and Orders
+
+- View the customer list in the "Show All Customers" section.
+- View the order list in the "Show All Orders" section. You can see orders with the details of each product, grouped by product category.
+
+### G) Operations for Dashboard
+
+- View the top 5 best-selling products.
+- View the most recent customer orders.
+
+
+
