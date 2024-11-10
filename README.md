@@ -41,14 +41,14 @@ cd getUpAssignment
 
 Laravel requires an environment file (`.env`) to store sensitive configuration like database credentials and API keys. To create the `.env` file, run the following command:
 
-# bash
+```bash
 cp .env.example .env
+```
 
 ### B) Configure Database Connection
 
 Open the `.env` file in your project root and update the following values to match your local database configuration:
 
-# env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -65,6 +65,7 @@ MAIL_PASSWORD=incxmkhijlhfnebl
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=fahadulhoq.bitspeck@gmail.com
 MAIL_FROM_NAME="getUpAssignment"
+
 
 ### C) Generate the Laravel Application Key
 
