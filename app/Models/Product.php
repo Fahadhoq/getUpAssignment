@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    // Define the table name if it's different from the plural form of the model name
+    protected $table = 'products';
 
-    protected $fillable = ['name', 'description', 'price', 'stock'];
+    // Define the fillable attributes
+    protected $fillable = ['name', 'description', 'price', 'stock', 'category_id'];
+
+    // Define the relationship with category (Many-to-One)
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

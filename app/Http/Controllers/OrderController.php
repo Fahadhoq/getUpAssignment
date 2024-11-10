@@ -9,15 +9,24 @@ use DB;
 
 class OrderController extends Controller
 {
-    public function topSellingProducts(Request $request)
+    public function index(Request $request)
     {
-        $topSellingProducts = Product::select('products.id', 'products.name', DB::raw('SUM(orders.quantity) as total_sales'))->join('orders', 'products.id', '=', 'orders.product_id')
-                    ->groupBy('products.id', 'products.name')
-                    ->orderByDesc('total_sales')
-                    ->limit(5)
-                    ->get();
+           return $data['orders'] =  Order::with(['product.category', 'customer']) // Eager load product and category data to prevent N+1 queries
+            ->select(
+                'categories.id as category_id',
+                'categories.name as category_name',
+                DB::raw('COUNT(orders.id) as total_orders'), // Count of orders for the category
+                DB::raw('SUM(orders.total_price) as total_revenue') // Total revenue for the category
+            )
+            ->join('products', 'orders.product_id', '=', 'products.id') // Join with products table
+            ->join('categories', 'products.category_id', '=', 'categories.id') // Join with categories table
+            ->groupBy('categories.id', 'categories.name') // Group only by category ID and name
+            ->orderBy('categories.name') // Order by category name
+            ->get();
+    
+    
+        return view('Backend.Order.index' , $data);
 
-        return response()->success(['topSellingProducts' => $topSellingProducts, 'status'=> true]);
     }
 
     public function recentOrders($customerId)
@@ -29,4 +38,6 @@ class OrderController extends Controller
 
         return response()->json($recentOrders);
     }
+
+    
 }
