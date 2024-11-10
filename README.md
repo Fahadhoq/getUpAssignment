@@ -1,4 +1,4 @@
-# Laravel Project
+# getUp Assignment
 
 This is a Laravel-based web application for managing products, users, orders, and roles. It includes role-based access control and queued jobs for email sending.
 
@@ -32,7 +32,7 @@ First, clone the repository to your local machine using the following Git comman
 git clone https://github.com/Fahadhoq/getUpAssignment.git
 cd getUpAssignment
 
-
+---
 
 ## 3. Setting Up the Environment
 
