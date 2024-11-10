@@ -28,7 +28,7 @@ Before running the project, make sure you have the following software installed 
 
 First, clone the repository to your local machine using the following Git command:
 
-```bash
+
 git clone https://github.com/Fahadhoq/getUpAssignment.git
 cd getUpAssignment
 
@@ -76,14 +76,14 @@ php artisan key:generate
 
 Run Composer to install the required PHP dependencies:
 
-```bash
+
 composer install
 
 ### D) Install JavaScript Dependencies
 
 The project includes front-end assets (e.g., Blade views) that need to be compiled. Install the required JavaScript dependencies by running the following command:
 
-```bash
+
 npm install
 
 
@@ -93,29 +93,29 @@ npm install
 
 To set up the database schema (create the necessary tables), run the following command:
 
-```bash
+
 php artisan migrate
 
 ### B) Seed the Database
 
 Seed the database with sample data for roles, users, customers, categories, products, and orders by running:
 
-```bash
+
 php artisan db:seed
 
 ### C) Start the Laravel Development Server
 
 To start the Laravel development server, run the following command:
 
-```bash
+
 php artisan serve
 
 Compile the assets using:
-```bash
+
 npm run dev
 
 Run the queue worker:
-```bash
+
 php artisan queue:work
 
 ## 5. Testing the Application
