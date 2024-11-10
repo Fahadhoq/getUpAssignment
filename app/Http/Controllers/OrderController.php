@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-           return $data['orders'] =  Order::with(['product.category', 'customer']) // Eager load product and category data to prevent N+1 queries
+        $data['orders'] =  Order::with(['product.category', 'customer']) // Eager load product and category data to prevent N+1 queries
             ->select(
                 'categories.id as category_id',
                 'categories.name as category_name',

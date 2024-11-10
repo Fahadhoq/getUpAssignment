@@ -14,6 +14,7 @@ class OrderSeeder extends Seeder
         // Fetch all customers and products
         $customers = Customer::all();
         $products = Product::all();
+        $quantity = $this->faker->numberBetween(1, 5);  // Random quantity between 1 and 5
 
         // Create 50 orders (You can change the number as needed)
         for ($i = 0; $i < 50; $i++) {
@@ -26,7 +27,7 @@ class OrderSeeder extends Seeder
                 'customer_id' => $customer->id,
                 'product_id' => $product->id,
                 'quantity' => rand(1, 10),  // Random quantity between 1 and 10
-                'total_price' => $product->price * rand(1, 10), // Calculate total price
+                'total_price' => $product->price * $quantity, // Calculate total price
             ]);
         }
     }

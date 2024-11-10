@@ -1,181 +1,91 @@
 # getUp Assignment
 
-This is a Laravel-based web application for managing products, users, orders, and roles. It includes role-based access control and queued jobs for email sending.
+## Overview
 
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Cloning the Repository](#cloning-the-repository)
-3. [Setting Up the Environment](#setting-up-the-environment)
-4. [Running the Application](#running-the-application)
-5. [Testing the Application](#testing-the-application)
+This project is a simple application built with Laravel 10, Breeze, and a RESTful API. The application focuses on key features such as product management, user authentication, role-based access control (RBAC), email notifications with a database job queue, and efficient query optimizations.
 
 ---
 
-## 1. Prerequisites
+## Features
 
-Before running the project, make sure you have the following software installed on your machine:
-
-- **PHP** (version 8.0 or higher)
-- **Composer** (to install PHP dependencies)
-- **Node.js** and **npm** (to install JavaScript dependencies)
-- **MySQL** (or any compatible database)
-- **Git** (to clone the repository)
+- **Product Management**
+- **User Authentication**
+- **Role-Based Access Control (RBAC)**
+- **Email Notifications via Queue**
+- **Database Query Optimization**
 
 ---
 
-## 2. Cloning the Repository
+## 1. Approach and Challenges Encountered
 
-First, clone the repository to your local machine using the following Git command:
+### 1.1 Approach for Building the API with Authentication
 
-```bash
-git clone https://github.com/Fahadhoq/getUpAssignment.git
-cd getUpAssignment 
-```
+The goal was to build a simple RESTful API for an e-commerce application, focusing on product management and user authentication.
 
+**Authentication:**  
+We used **Laravel Sanctum** for token-based authentication. Sanctum was chosen due to its simplicity and ease of integration into small-to-medium-sized applications.
 
+**Challenges:**
+- Managing token expiration and renewal can be tricky with Sanctum, as it uses short-lived tokens. Initially, I attempted to use **Laravel Passport**, but it does not work with PHP 8 and higher, and since Laravel 10 is recommended for PHP 8 or higher, we chose Sanctum instead.
 
-## 3. Setting Up the Environment
+---
 
-### A) Copy the `.env.example` to `.env`
+## 2. Database Optimization & Query Challenge
 
-Laravel requires an environment file (`.env`) to store sensitive configuration like database credentials and API keys. To create the `.env` file, run the following command:
+### 2.1 Approach for Database Optimization & Query Challenge
 
-```bash
-cp .env.example .env
-```
+To handle large datasets, the goal was to optimize queries for retrieving the top 5 best-selling products and most recent orders.
 
-### B) Configure Database Connection
+**Optimizations Applied:**
+- **Indexes:** Added indexes on the columns frequently queried: `customer_id`, `product_id`, `created_at` in the `orders` table.
+- This helped to speed up retrieval of products and orders, especially when working with large datasets.
 
-Open the `.env` file in your project root and update the following values to match your local database configuration:
+---
 
-```bash
-# Database Configuration
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=your_database_name
-DB_USERNAME=root
-DB_PASSWORD=your_password
+## 3. Role-Based Access Control (RBAC)
 
-# Email Configuration
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=fahadulhoq.bitspeck@gmail.com
-MAIL_PASSWORD=incxmkhijlhfnebl
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=fahadulhoq.bitspeck@gmail.com
-MAIL_FROM_NAME="getUpAssignment"
-```
+### 3.1 Approach for Role-Based Access Control (RBAC)
 
+The RBAC system required the creation of two roles: **Admin** and **Editor**.
 
-### C) Generate the Laravel Application Key
+- **Admin:** Full access to manage all content.
+- **Editor:** Limited access to update only specific resources (e.g., products).
 
-The application key is required for encryption. Run this command to generate it:
+**Steps:**
+1. Defined roles in the database using a `roles` table.
+2. Created a `ProductPolicy` to handle authorization logic for viewing, creating, updating, and deleting products.
 
-```bash
-php artisan key:generate
-```
+---
 
-### D) Install PHP Dependencies
+## 4. Queue for Email Notifications
 
-Run Composer to install the required PHP dependencies:
+### 4.1 Approach for Queue for Email Notifications
 
-```bash
-composer install
-```
+The task required setting up a queued job to send a welcome email to the user after registration.
 
-### E) Install JavaScript Dependencies
+**Steps:**
+1. Installed and configured the queue system.
+2. Created a `SendWelcomeEmail` job that sends a welcome email to the newly registered user.
+3. Used job dispatching (`dispatch()`) to push the email job into the queue.
+4. Ensured the queue was processed using Laravel's `queue:work` command.
 
-The project includes front-end assets (e.g., Blade views) that need to be compiled. Install the required JavaScript dependencies by running the following command:
+**Challenges:**
+- After registration, the email needs to be validated to ensure correctness. However, since the email is sent asynchronously via the queue, if the email is invalid, the queue job will throw an exception and fail to send the email.
 
-```bash
-npm install
-```
+---
 
-## 4. Running the Application
+## 5. Optimized Complex Query with Eloquent
 
-### A) Run the Database Migrations
+### 5.1 Approach for Optimized Complex Query with Eloquent
 
-To set up the database schema (create the necessary tables), run the following command:
+The task required writing an optimized query to retrieve orders with their associated products, grouped by product category.
 
-```bash
-php artisan migrate
-```
+**Steps:**
+1. Used **eager loading** (`with()`) to prevent the N+1 query problem.
+2. Grouped the results by `category_id` to optimize the organization of data.
 
-### B) Seed the Database
+**Challenges:**
+- The application involves two tables: `products` and `orders`. An order can contain multiple products, so a pivot table is needed to map the relationship between orders and products.
+- Storing multiple `product_ids` as an array in the orders table is not optimal and leads to inefficient queries when fetching data.
 
-Seed the database with sample data for roles, users, customers, categories, products, and orders by running:
-
-```bash
-php artisan db:seed
-```
-
-### C) Start the Laravel Development Server
-
-To start the Laravel development server, run the following command:
-
-```bash
-php artisan serve
-```
-
-Compile the assets using:
-```bash
-npm run dev
-```
-
-Run the queue worker:
-```bash
-php artisan queue:work
-```
-
-## 5. Testing the Application
-
-### A) Testing Authentication
-
-1. Go to [http://localhost:8000/register](http://localhost:8000/register) to register a new user.
-   - After registration, a welcome email will be sent via a queued job if the email is valid.
-2. After registration, go to [http://localhost:8000/login](http://localhost:8000/login) to log in with the new user credentials.
-
-### B) Testing Role-Based Access
-
-- **As an Admin**, you should be able to:
-  - View, create, update, and delete products at `/product/list`.
-  - Manage roles at `/role`.
-  - Manage users at `/users`.
-  - View customer and order lists at `/customer/list` and `/order/list`.
-  
-- **As an Editor**, you should only be able to update certain content, like products. Editors should have restricted access to other areas such as role management, customer list, and order list.
-
-- If you're testing role-based permissions, ensure that the roles have been assigned to users, either using the admin interface. Example admin credentials:
-  - **Email**: `admin@getupAssignment.com`
-  - **Password**: `12345678`
-
-### C) Operations for Roles
-
-- View all roles at the "Show All Roles" section.
-- Assign roles to users under the "Assign Roles" section.
-
-### D) Operations for Users
-
-- View all users at the "Show All Users" section.
-
-### E) Operations for Products
-
-- View all products in the "Show All Products" section. Here, you can:
-  - View, update, and delete existing products.
-  - Click on "Create Product" to add a new product.
-
-### F) Operations for Customers and Orders
-
-- View the customer list in the "Show All Customers" section.
-- View the order list in the "Show All Orders" section. You can see orders with the details of each product, grouped by product category.
-
-### G) Operations for Dashboard
-
-- View the top 5 best-selling products.
-- View the most recent customer orders.
-
-
-
+---

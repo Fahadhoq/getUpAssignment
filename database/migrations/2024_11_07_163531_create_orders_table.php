@@ -23,9 +23,12 @@ class CreateOrdersTable extends Migration
 
         // Adding indexes for performance optimization
         Schema::table('orders', function (Blueprint $table) {
-            $table->index('customer_id');
-            $table->index('product_id');
-            $table->index('created_at');
+           // Index on foreign keys to improve JOIN performance
+           $table->index('customer_id'); // Speed up queries filtering by customer_id
+           $table->index('product_id');  // Speed up queries filtering by product_id
+
+           // Index on created_at for faster date-based filtering (e.g., order history queries)
+           $table->index('created_at'); // Speed up queries filtering or sorting by creation date
         });
     }
 
