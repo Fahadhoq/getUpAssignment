@@ -31,9 +31,12 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+
+            $job = new SendWelcomeEmailJob($user);
+            $this->dispatch($job);
+
             DB::commit();
 
-            SendWelcomeEmailJob::dispatch($user);
 
             return response()->success(['message' => 'User Register Successful', 'status'=> true]);
         } catch(\Exception $exception){
