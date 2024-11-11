@@ -21,6 +21,8 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
+//cheang to pull
+
 Route::get('/', function () {
     return view('welcome');
 });
