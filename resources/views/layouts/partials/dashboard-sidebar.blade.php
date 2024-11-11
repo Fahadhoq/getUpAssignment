@@ -40,7 +40,6 @@
                                   <li><a href="{{ route('product.create') }}"> {{ __('Create') }}</a></li>
                                 @endcan
                             </ul>
-                        </li>
 
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> CUSTOMER <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
