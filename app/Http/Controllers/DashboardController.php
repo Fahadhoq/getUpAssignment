@@ -19,6 +19,7 @@ class DashboardController extends Controller
                                     ->get();
 
         $data['recentOrders'] = Order::with('product','customer')
+                                    ->whereNull('parent_order_id')
                                     ->orderBy('created_at', 'desc')
                                     ->limit(5)
                                     ->get();   

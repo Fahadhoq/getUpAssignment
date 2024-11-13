@@ -91,7 +91,6 @@
 
                                     <!-- Product and Quantity -->
                                     <div class="mt-3">
-                                        <p class="text-muted">Product: {{ $order->product->name }}</p>
                                         <p class="text-muted">Quantity: {{ $order->quantity }}</p>
                                     </div>
 

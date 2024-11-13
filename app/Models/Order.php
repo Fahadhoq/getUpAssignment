@@ -35,5 +35,10 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function childOrders()
+    {
+        return $this->hasMany(Order::class, 'parent_order_id');  // Foreign key: parent_order_id
+    }
 }
 

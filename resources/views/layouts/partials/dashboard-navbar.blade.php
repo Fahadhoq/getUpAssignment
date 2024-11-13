@@ -3,7 +3,7 @@
 
 <!-- LOGO -->
 <div class="topbar-left">
-    <a href="index.html" class="logo">
+    <a href="/" class="logo">
         <span class="logo-light">
                 <i class="mdi mdi-camera-control"></i> {{ config('app.name') }}
             </span>

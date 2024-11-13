@@ -17,12 +17,11 @@ class ProductPolicy
 
     public function create(User $user)
     {
-        if ($user->hasRole('Admin')) {
-            return true;
+        if (!$user->hasRole('Admin')) {
+            throw new AuthorizationException('You do not have permission to create products.');
         }
-
-        // Throw the exception if the user is not authorized
-        throw new AuthorizationException('You do not have permission to create products.');
+    
+        return true; // This is implicit if no exception is thrown
     }
 
     // Check if the user can update the product

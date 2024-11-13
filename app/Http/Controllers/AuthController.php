@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use App\Jobs\SendWelcomeEmailJob;
+
 class AuthController extends Controller
 {
     // User registration
@@ -32,8 +33,7 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            $job = new SendWelcomeEmailJob($user);
-            $this->dispatch($job);
+            SendWelcomeEmailJob::dispatch($user);
 
             DB::commit();
 

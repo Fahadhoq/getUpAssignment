@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +22,10 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::get('/', [LandingPageController::class, 'welcome']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -61,7 +59,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('order')->group(function () {
         Route::get('/list', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/recentOrders/{customerId}', [OrderController::class, 'recentOrders']);
+        Route::get('show-{id}', [OrderController::class, 'view'])->name('order.view');
+        Route::get('/create', [OrderController::class, 'create'])->name('order.create');
+        Route::post('/create', [OrderController::class, 'store']);
     });
 });
 
